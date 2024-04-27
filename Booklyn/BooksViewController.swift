@@ -7,13 +7,18 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+ final class BooksViewController: UIViewController {
     
     private var posterImage: UIImageView!
-
+    private var authorNameLabel: UILabel!
+    private var bookNameLabel: UILabel!
+    private var descripBooksLabel: UILabel!
+     
+     
+     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        view.backgroundColor = .white
         
     }
 
