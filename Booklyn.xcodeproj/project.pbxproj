@@ -15,6 +15,7 @@
 		CCD9988F2BD94B5000B8133E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CCD9988D2BD94B5000B8133E /* LaunchScreen.storyboard */; };
 		CCD998972BDD4D9300B8133E /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD998962BDD4D9300B8133E /* TabBarController.swift */; };
 		CCD998992BDD4E4D00B8133E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD998982BDD4E4D00B8133E /* ProfileViewController.swift */; };
+		CCD9989B2BDD8C2E00B8133E /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD9989A2BDD8C2E00B8133E /* AuthViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		CCD998902BD94B5000B8133E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CCD998962BDD4D9300B8133E /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		CCD998982BDD4E4D00B8133E /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		CCD9989A2BDD8C2E00B8133E /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 				CCD9988D2BD94B5000B8133E /* LaunchScreen.storyboard */,
 				CCD998902BD94B5000B8133E /* Info.plist */,
 				CCD998962BDD4D9300B8133E /* TabBarController.swift */,
+				CCD9989A2BDD8C2E00B8133E /* AuthViewController.swift */,
 			);
 			path = Booklyn;
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 				CCD998972BDD4D9300B8133E /* TabBarController.swift in Sources */,
 				CCD998992BDD4E4D00B8133E /* ProfileViewController.swift in Sources */,
 				CCD998832BD94B4F00B8133E /* AppDelegate.swift in Sources */,
+				CCD9989B2BDD8C2E00B8133E /* AuthViewController.swift in Sources */,
 				CCD998852BD94B4F00B8133E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
