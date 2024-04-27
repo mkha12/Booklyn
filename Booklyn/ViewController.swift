@@ -16,5 +16,6 @@ class ViewController: UIViewController {
     }
 
 var b = 1
+var test = 1
 }
 

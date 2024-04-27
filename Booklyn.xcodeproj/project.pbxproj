@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CCBDC78222F7A37A2AD0A4AC /* Pods_Booklyn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F92B3F208A94699276E380E /* Pods_Booklyn.framework */; };
 		CCD998832BD94B4F00B8133E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD998822BD94B4F00B8133E /* AppDelegate.swift */; };
 		CCD998852BD94B4F00B8133E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD998842BD94B4F00B8133E /* SceneDelegate.swift */; };
 		CCD998872BD94B4F00B8133E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD998862BD94B4F00B8133E /* ViewController.swift */; };
@@ -16,6 +17,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F92B3F208A94699276E380E /* Pods_Booklyn.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Booklyn.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E215AD590E634284376431A /* Pods-Booklyn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Booklyn.debug.xcconfig"; path = "Target Support Files/Pods-Booklyn/Pods-Booklyn.debug.xcconfig"; sourceTree = "<group>"; };
+		8805193782FD5EA8C3934A36 /* Pods-Booklyn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Booklyn.release.xcconfig"; path = "Target Support Files/Pods-Booklyn/Pods-Booklyn.release.xcconfig"; sourceTree = "<group>"; };
 		CCD9987F2BD94B4F00B8133E /* Booklyn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Booklyn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCD998822BD94B4F00B8133E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CCD998842BD94B4F00B8133E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -31,17 +35,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCBDC78222F7A37A2AD0A4AC /* Pods_Booklyn.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5B39126075716C8ABE862695 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7E215AD590E634284376431A /* Pods-Booklyn.debug.xcconfig */,
+				8805193782FD5EA8C3934A36 /* Pods-Booklyn.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		79F4B225B83A72C4F7C4FE2C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3F92B3F208A94699276E380E /* Pods_Booklyn.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		CCD998762BD94B4F00B8133E = {
 			isa = PBXGroup;
 			children = (
 				CCD998812BD94B4F00B8133E /* Booklyn */,
 				CCD998802BD94B4F00B8133E /* Products */,
+				5B39126075716C8ABE862695 /* Pods */,
+				79F4B225B83A72C4F7C4FE2C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,9 +99,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CCD998932BD94B5000B8133E /* Build configuration list for PBXNativeTarget "Booklyn" */;
 			buildPhases = (
+				2EFC247B29FD05442F138772 /* [CP] Check Pods Manifest.lock */,
 				CCD9987B2BD94B4F00B8133E /* Sources */,
 				CCD9987C2BD94B4F00B8133E /* Frameworks */,
 				CCD9987D2BD94B4F00B8133E /* Resources */,
+				63BDC5615EDD5F24186D07BF /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -132,6 +159,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2EFC247B29FD05442F138772 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Booklyn-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		63BDC5615EDD5F24186D07BF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Booklyn/Pods-Booklyn-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Booklyn/Pods-Booklyn-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Booklyn/Pods-Booklyn-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		CCD9987B2BD94B4F00B8133E /* Sources */ = {
@@ -287,6 +356,7 @@
 		};
 		CCD998942BD94B5000B8133E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7E215AD590E634284376431A /* Pods-Booklyn.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -320,6 +390,7 @@
 		};
 		CCD998952BD94B5000B8133E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8805193782FD5EA8C3934A36 /* Pods-Booklyn.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
