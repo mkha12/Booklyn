@@ -8,6 +8,8 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    private var posterImage: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,5 +17,6 @@ class ViewController: UIViewController {
         
     }
 
+    
 }
 
