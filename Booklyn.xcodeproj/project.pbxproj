@@ -11,13 +11,13 @@
 		CCD998832BD94B4F00B8133E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD998822BD94B4F00B8133E /* AppDelegate.swift */; };
 		CCD998852BD94B4F00B8133E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD998842BD94B4F00B8133E /* SceneDelegate.swift */; };
 		CCD998872BD94B4F00B8133E /* BooksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD998862BD94B4F00B8133E /* BooksViewController.swift */; };
-		CCD9988C2BD94B5000B8133E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CCD9988B2BD94B5000B8133E /* Assets.xcassets */; };
 		CCD9988F2BD94B5000B8133E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CCD9988D2BD94B5000B8133E /* LaunchScreen.storyboard */; };
 		CCD998972BDD4D9300B8133E /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD998962BDD4D9300B8133E /* TabBarController.swift */; };
 		CCD998992BDD4E4D00B8133E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD998982BDD4E4D00B8133E /* ProfileViewController.swift */; };
 		CCD9989B2BDD8C2E00B8133E /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD9989A2BDD8C2E00B8133E /* AuthViewController.swift */; };
 		CCD998A02BDF7FAD00B8133E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CCD9989F2BDF7FAD00B8133E /* GoogleService-Info.plist */; };
 		CCD998A32BDF8B6500B8133E /* UIColor+Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD998A22BDF8B6500B8133E /* UIColor+Extentions.swift */; };
+		CCD998A52BDFBC7000B8133E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CCD998A42BDFBC7000B8133E /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,7 +28,6 @@
 		CCD998822BD94B4F00B8133E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CCD998842BD94B4F00B8133E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		CCD998862BD94B4F00B8133E /* BooksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksViewController.swift; sourceTree = "<group>"; };
-		CCD9988B2BD94B5000B8133E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CCD9988E2BD94B5000B8133E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CCD998902BD94B5000B8133E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CCD998962BDD4D9300B8133E /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -36,6 +35,7 @@
 		CCD9989A2BDD8C2E00B8133E /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		CCD9989F2BDF7FAD00B8133E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CCD998A22BDF8B6500B8133E /* UIColor+Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extentions.swift"; sourceTree = "<group>"; };
+		CCD998A42BDFBC7000B8133E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,9 +94,9 @@
 				CCD998842BD94B4F00B8133E /* SceneDelegate.swift */,
 				CCD998862BD94B4F00B8133E /* BooksViewController.swift */,
 				CCD998982BDD4E4D00B8133E /* ProfileViewController.swift */,
-				CCD9988B2BD94B5000B8133E /* Assets.xcassets */,
 				CCD9988D2BD94B5000B8133E /* LaunchScreen.storyboard */,
 				CCD998902BD94B5000B8133E /* Info.plist */,
+				CCD998A42BDFBC7000B8133E /* Assets.xcassets */,
 				CCD998962BDD4D9300B8133E /* TabBarController.swift */,
 				CCD9989A2BDD8C2E00B8133E /* AuthViewController.swift */,
 			);
@@ -172,7 +172,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CCD9988F2BD94B5000B8133E /* LaunchScreen.storyboard in Resources */,
-				CCD9988C2BD94B5000B8133E /* Assets.xcassets in Resources */,
+				CCD998A52BDFBC7000B8133E /* Assets.xcassets in Resources */,
 				CCD998A02BDF7FAD00B8133E /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

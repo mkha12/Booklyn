@@ -10,4 +10,5 @@ pod 'Shuffle-iOS'
 pod 'FirebaseAuth'
 pod 'FirebaseFirestore'
 pod 'FirebaseAnalytics'
+pod 'GoogleSignIn'
 end

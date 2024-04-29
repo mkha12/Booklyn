@@ -6,6 +6,10 @@
 //
 
 import UIKit
+import FirebaseCore
+import FirebaseAuth
+import GoogleSignIn
+
 
 final class AuthViewController: UIViewController {
     
@@ -13,10 +17,15 @@ final class AuthViewController: UIViewController {
     private var greetingDescrip: UILabel!
     private var signAppleButton: UIButton!
     private var signGoogleButton: UIButton!
-    private var privaceLabelButton: UIButton!
     private var leftSeparatorLine: UIView!
     private var rightSeparatorLine: UIView!
     private var orLabel: UILabel!
+    private var emailTextField: UITextField!
+    private var passwordTextField: UITextField!
+    private var loginInButton: UIButton!
+    private var resertPasswordButton: UIButton!
+    
+    private var privaceLabelButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,10 +64,11 @@ final class AuthViewController: UIViewController {
         signAppleButton.layer.borderColor = UIColor.gray.cgColor
         signAppleButton.layer.cornerRadius = 15
         signAppleButton.translatesAutoresizingMaskIntoConstraints = false
+        signAppleButton.addTarget(self, action: #selector(didTapApple), for: .touchUpInside)
         view.addSubview(signAppleButton)
         
         signGoogleButton = UIButton()
-        signGoogleButton.setImage(UIImage(systemName: "googlelogo"), for: .normal)
+        signGoogleButton.setImage(UIImage(named: "ios_neutral_sq_na"), for: .normal)
         signGoogleButton.setTitle("Continue with Google", for: .normal)
         signGoogleButton.setTitleColor(.black, for: .normal)
         signGoogleButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .medium)
@@ -67,7 +77,57 @@ final class AuthViewController: UIViewController {
         signGoogleButton.backgroundColor = .clear
         signGoogleButton.layer.cornerRadius = 15
         signGoogleButton.translatesAutoresizingMaskIntoConstraints = false
+        signAppleButton.addTarget(self, action: #selector(didTapGoogle), for: .touchUpInside)
         view.addSubview(signGoogleButton)
+        
+        emailTextField = UITextField()
+        emailTextField.placeholder = "Email"
+        emailTextField.clearButtonMode = .whileEditing
+        emailTextField.backgroundColor = .light_brown
+        emailTextField.leftViewMode = .always
+        emailTextField.layer.cornerRadius = 16
+        emailTextField.layer.borderWidth = 1
+        emailTextField.layer.borderColor = UIColor.gray.cgColor
+        emailTextField.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(emailTextField)
+        
+        let emailPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 0))
+        emailTextField.leftView = emailPaddingView
+        emailTextField.leftViewMode = .always
+        
+        passwordTextField = UITextField()
+        passwordTextField.placeholder = "Password"
+        passwordTextField.clearButtonMode = .whileEditing
+        passwordTextField.backgroundColor = .light_brown
+        passwordTextField.leftViewMode = .always
+        passwordTextField.layer.cornerRadius = 16
+        passwordTextField.layer.borderWidth = 1
+        passwordTextField.layer.borderColor = UIColor.gray.cgColor
+        passwordTextField.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(passwordTextField)
+        
+        let passwordPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 0))
+        passwordTextField.leftView = passwordPaddingView
+        passwordTextField.leftViewMode = .always
+        
+        loginInButton = UIButton()
+        loginInButton.setTitle("Log In", for: .normal)
+        loginInButton.setTitleColor(.black, for: .normal)
+        loginInButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .medium)
+        loginInButton.backgroundColor = .clear
+        loginInButton.layer.borderWidth = 1
+        loginInButton.layer.borderColor = UIColor.gray.cgColor
+        loginInButton.layer.cornerRadius = 15
+        loginInButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loginInButton)
+        
+        resertPasswordButton = UIButton()
+        resertPasswordButton.setTitle("Forgot your password?", for: .normal)
+        resertPasswordButton.setTitleColor(.black, for: .normal)
+        resertPasswordButton.titleLabel?.font = .systemFont(ofSize: 10)
+        resertPasswordButton.backgroundColor = .clear
+        resertPasswordButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(resertPasswordButton)
         
         privaceLabelButton = UIButton()
         privaceLabelButton.setTitle("Privacy policy", for: .normal)
@@ -117,7 +177,6 @@ final class AuthViewController: UIViewController {
             
             signAppleButton.topAnchor.constraint(equalTo: greetingDescrip.bottomAnchor,constant: 80),
             signAppleButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            //signAppleButton.widthAnchor.constraint(equalToConstant: 200),
             signAppleButton.heightAnchor.constraint(equalToConstant: 50),
             signAppleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             signAppleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
@@ -138,9 +197,30 @@ final class AuthViewController: UIViewController {
             rightSeparatorLine.heightAnchor.constraint(equalToConstant: 1),
         
             orLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            orLabel.topAnchor.constraint(equalTo: signGoogleButton.bottomAnchor, constant: 20),
+            orLabel.topAnchor.constraint(equalTo: signGoogleButton.bottomAnchor, constant: 10),
             orLabel.widthAnchor.constraint(equalToConstant: 30),
             orLabel.heightAnchor.constraint(equalToConstant: 20),
+            
+            emailTextField.topAnchor.constraint(equalTo: orLabel.bottomAnchor,constant: 10),
+            emailTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emailTextField.heightAnchor.constraint(equalToConstant: 50),
+            emailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            emailTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor,constant: 10),
+            passwordTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            passwordTextField.heightAnchor.constraint(equalToConstant: 50),
+            passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            loginInButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor,constant: 10),
+            loginInButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loginInButton.heightAnchor.constraint(equalToConstant: 50),
+            loginInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            loginInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            resertPasswordButton.topAnchor.constraint(equalTo: loginInButton.bottomAnchor,constant: 0),
+            resertPasswordButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             privaceLabelButton.bottomAnchor.constraint(equalTo:view.safeAreaLayoutGuide.bottomAnchor,constant: 20),
             privaceLabelButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -149,6 +229,31 @@ final class AuthViewController: UIViewController {
             
         ])
     }
+    
+    @objc private func didTapApple() {
+        
+    }
+    
+    @objc private func didTapGoogle() {
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        let config = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.signIn(with: config, presenting: self) { [weak self] user, error in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            guard let authentication = user?.authentication, let idToken = authentication.idToken else { return }
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
+            Auth.auth().signIn(with: credential) { authResult, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    // Navigate to next screen or update the UI
+                }
+            }
+        }
+    }
+
 
    }
 
