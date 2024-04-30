@@ -24,8 +24,8 @@ final class AuthViewController: UIViewController {
     private var passwordTextField: UITextField!
     private var loginInButton: UIButton!
     private var resertPasswordButton: UIButton!
-    
     private var privaceLabelButton: UIButton!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +33,7 @@ final class AuthViewController: UIViewController {
         setupUI()
         setupOrSeparator()
         setupConstraint()
+        setupGoogleSignIn()
     }
     
     private func setupUI() {
@@ -66,7 +67,7 @@ final class AuthViewController: UIViewController {
         signAppleButton.translatesAutoresizingMaskIntoConstraints = false
         signAppleButton.addTarget(self, action: #selector(didTapApple), for: .touchUpInside)
         view.addSubview(signAppleButton)
-        
+
         signGoogleButton = UIButton()
         signGoogleButton.setImage(UIImage(named: "ios_neutral_sq_na"), for: .normal)
         signGoogleButton.setTitle("Continue with Google", for: .normal)
@@ -77,7 +78,7 @@ final class AuthViewController: UIViewController {
         signGoogleButton.backgroundColor = .clear
         signGoogleButton.layer.cornerRadius = 15
         signGoogleButton.translatesAutoresizingMaskIntoConstraints = false
-        signAppleButton.addTarget(self, action: #selector(didTapGoogle), for: .touchUpInside)
+        signGoogleButton.addTarget(self, action: #selector(didTapGoogle), for: .touchUpInside)
         view.addSubview(signGoogleButton)
         
         emailTextField = UITextField()
@@ -195,7 +196,7 @@ final class AuthViewController: UIViewController {
             rightSeparatorLine.leadingAnchor.constraint(equalTo: orLabel.trailingAnchor, constant: 10),
             rightSeparatorLine.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             rightSeparatorLine.heightAnchor.constraint(equalToConstant: 1),
-        
+            
             orLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             orLabel.topAnchor.constraint(equalTo: signGoogleButton.bottomAnchor, constant: 10),
             orLabel.widthAnchor.constraint(equalToConstant: 30),
@@ -234,26 +235,51 @@ final class AuthViewController: UIViewController {
         
     }
     
+
+    private func setupGoogleSignIn() {
+        guard let path = Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist"),
+              let dict = NSDictionary(contentsOfFile: path),
+              let clientID = dict["GIDClientID"] as? String else {
+            print("Firebase config error: Couldn't retrieve GIDClientID")
+            return
+        }
+        print("GIDClientID: \(clientID)")
+            GIDSignIn.sharedInstance.configuration = GIDConfiguration(clientID: clientID)
+        }
+    
+
+    
     @objc private func didTapGoogle() {
-        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-        let config = GIDConfiguration(clientID: clientID)
-        GIDSignIn.sharedInstance.signIn(with: config, presenting: self) { [weak self] user, error in
-            if let error = error {
-                print(error.localizedDescription)
+        setupGoogleSignIn()
+        
+        GIDSignIn.sharedInstance.signIn(withPresenting: self) { [weak self] result, error in
+            guard error == nil else {
+                guard let strongSelf = self else { return }
+                if let error = error {
+                    print("Google Sign-In error: \(error.localizedDescription)")
+                    return
+                }
                 return
             }
-            guard let authentication = user?.authentication, let idToken = authentication.idToken else { return }
-            let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
-            Auth.auth().signIn(with: credential) { authResult, error in
-                if let error = error {
-                    print(error.localizedDescription)
-                } else {
-                    // Navigate to next screen or update the UI
+                guard let user = result?.user,
+                    let idToken = user.idToken?.tokenString
+
+                  else {
+                    print("Authentication error: Missing auth tokens")
+                                return
+                  }
+                
+                let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: user.accessToken.tokenString)
+                
+                Auth.auth().signIn(with: credential) { authResult, error in
+                    if let error = error {
+                        print("Firebase Auth error: \(error.localizedDescription)")
+                    } else {
+                        // Navigate to next screen or update the UI
+                    }
                 }
             }
         }
+        
+        
     }
-
-
-   }
-

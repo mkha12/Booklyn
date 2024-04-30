@@ -16,7 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
             FirebaseApp.configure()
-        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
             window = UIWindow(frame: UIScreen.main.bounds)
             window?.rootViewController = AuthViewController()
             window?.makeKeyAndVisible()
@@ -39,11 +38,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        return GIDSignIn.sharedInstance().handle(url)
+        print("Open URL: \(url)")
+        return GIDSignIn.sharedInstance.handle(url)
+        
 
     }
-
-
+    
 
 }
 

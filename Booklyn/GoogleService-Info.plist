@@ -15,15 +15,19 @@
 	<key>STORAGE_BUCKET</key>
 	<string>booklyn-66dd4.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
+	<key>GIDClientID</key>
+	<string>502238701107-e8plj788mkod899r2h4g04tr631rqh8e.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.502238701107-e8plj788mkod899r2h4g04tr631rqh8e</string>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:502238701107:ios:c44c0f676c0635f1a36546</string>
 </dict>
