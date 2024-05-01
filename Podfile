@@ -11,4 +11,5 @@ pod 'FirebaseAuth'
 pod 'FirebaseFirestore'
 pod 'FirebaseAnalytics'
 pod 'GoogleSignIn'
+pod 'SwiftKeychainWrapper'
 end
