@@ -67,7 +67,7 @@ final class AuthViewController: UIViewController {
         signAppleButton.translatesAutoresizingMaskIntoConstraints = false
         signAppleButton.addTarget(self, action: #selector(didTapApple), for: .touchUpInside)
         view.addSubview(signAppleButton)
-
+        
         signGoogleButton = UIButton()
         signGoogleButton.setImage(UIImage(named: "ios_neutral_sq_na"), for: .normal)
         signGoogleButton.setTitle("Continue with Google", for: .normal)
@@ -235,19 +235,17 @@ final class AuthViewController: UIViewController {
         
     }
     
-
+    
     private func setupGoogleSignIn() {
         guard let path = Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist"),
               let dict = NSDictionary(contentsOfFile: path),
               let clientID = dict["GIDClientID"] as? String else {
-            print("Firebase config error: Couldn't retrieve GIDClientID")
             return
         }
-        print("GIDClientID: \(clientID)")
-            GIDSignIn.sharedInstance.configuration = GIDConfiguration(clientID: clientID)
-        }
+        GIDSignIn.sharedInstance.configuration = GIDConfiguration(clientID: clientID)
+    }
     
-
+    
     
     @objc private func didTapGoogle() {
         setupGoogleSignIn()
@@ -261,25 +259,29 @@ final class AuthViewController: UIViewController {
                 }
                 return
             }
-                guard let user = result?.user,
-                    let idToken = user.idToken?.tokenString
-
-                  else {
-                    print("Authentication error: Missing auth tokens")
-                                return
-                  }
-                
-                let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: user.accessToken.tokenString)
-                
-                Auth.auth().signIn(with: credential) { authResult, error in
-                    if let error = error {
-                        print("Firebase Auth error: \(error.localizedDescription)")
-                    } else {
-                        // Navigate to next screen or update the UI
+            guard let user = result?.user,
+                  let idToken = user.idToken?.tokenString
+                    
+            else {
+                print("Authentication error: Missing auth tokens")
+                return
+            }
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: user.accessToken.tokenString)
+            
+            Auth.auth().signIn(with: credential) { authResult, error in
+                if let error = error {
+                    print("Firebase Auth error: \(error.localizedDescription)")
+                } else {
+                    if let email = user.profile?.email {
+                        let saveSuccessful = KeychainManager.shared.save(email, for: "userEmail")
                     }
+                    let tabBarVC = TabBarViewController()
+                    self?.present(tabBarVC, animated: true, completion: nil)
                 }
             }
         }
-        
-        
     }
+    
+    
+}
