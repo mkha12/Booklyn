@@ -20,6 +20,8 @@
 		CCD998A72BE01E2400B8133E /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD998A62BE01E2400B8133E /* Config.swift */; };
 		CCD998A82BE0274900B8133E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CCD9989F2BDF7FAD00B8133E /* GoogleService-Info.plist */; };
 		CCD998AA2BE2BC4800B8133E /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD998A92BE2BC4800B8133E /* Keychain.swift */; };
+		CCD998AC2BE3CF5300B8133E /* UsersBookCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD998AB2BE3CF5300B8133E /* UsersBookCollectionView.swift */; };
+		CCD998B22BE3E07700B8133E /* BookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD998B12BE3E07700B8133E /* BookCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +42,8 @@
 		CCD998A42BDFBC7000B8133E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CCD998A62BE01E2400B8133E /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		CCD998A92BE2BC4800B8133E /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
+		CCD998AB2BE3CF5300B8133E /* UsersBookCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersBookCollectionView.swift; sourceTree = "<group>"; };
+		CCD998B12BE3E07700B8133E /* BookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,16 +97,15 @@
 		CCD998812BD94B4F00B8133E /* Booklyn */ = {
 			isa = PBXGroup;
 			children = (
+				CCD998AE2BE3CF9700B8133E /* Collections */,
+				CCD998AD2BE3CF7300B8133E /* ViewControllers */,
 				CCD998822BD94B4F00B8133E /* AppDelegate.swift */,
 				CCD998842BD94B4F00B8133E /* SceneDelegate.swift */,
-				CCD998862BD94B4F00B8133E /* BooksViewController.swift */,
-				CCD998982BDD4E4D00B8133E /* ProfileViewController.swift */,
 				CCD9988D2BD94B5000B8133E /* LaunchScreen.storyboard */,
 				CCD9989F2BDF7FAD00B8133E /* GoogleService-Info.plist */,
 				CCD998902BD94B5000B8133E /* Info.plist */,
 				CCD998A42BDFBC7000B8133E /* Assets.xcassets */,
 				CCD998962BDD4D9300B8133E /* TabBarController.swift */,
-				CCD9989A2BDD8C2E00B8133E /* AuthViewController.swift */,
 				CCD998A92BE2BC4800B8133E /* Keychain.swift */,
 			);
 			path = Booklyn;
@@ -115,6 +118,25 @@
 				CCD998A62BE01E2400B8133E /* Config.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		CCD998AD2BE3CF7300B8133E /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				CCD998862BD94B4F00B8133E /* BooksViewController.swift */,
+				CCD998982BDD4E4D00B8133E /* ProfileViewController.swift */,
+				CCD9989A2BDD8C2E00B8133E /* AuthViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		CCD998AE2BE3CF9700B8133E /* Collections */ = {
+			isa = PBXGroup;
+			children = (
+				CCD998AB2BE3CF5300B8133E /* UsersBookCollectionView.swift */,
+				CCD998B12BE3E07700B8133E /* BookCell.swift */,
+			);
+			path = Collections;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -234,10 +256,12 @@
 			files = (
 				CCD998872BD94B4F00B8133E /* BooksViewController.swift in Sources */,
 				CCD998972BDD4D9300B8133E /* TabBarController.swift in Sources */,
+				CCD998B22BE3E07700B8133E /* BookCell.swift in Sources */,
 				CCD998992BDD4E4D00B8133E /* ProfileViewController.swift in Sources */,
 				CCD998832BD94B4F00B8133E /* AppDelegate.swift in Sources */,
 				CCD9989B2BDD8C2E00B8133E /* AuthViewController.swift in Sources */,
 				CCD998AA2BE2BC4800B8133E /* Keychain.swift in Sources */,
+				CCD998AC2BE3CF5300B8133E /* UsersBookCollectionView.swift in Sources */,
 				CCD998A72BE01E2400B8133E /* Config.swift in Sources */,
 				CCD998A32BDF8B6500B8133E /* UIColor+Extentions.swift in Sources */,
 				CCD998852BD94B4F00B8133E /* SceneDelegate.swift in Sources */,
