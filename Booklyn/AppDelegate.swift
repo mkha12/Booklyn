@@ -16,17 +16,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-            FirebaseApp.configure()
-            window = UIWindow(frame: UIScreen.main.bounds)
-        if Auth.auth().currentUser != nil {
-              window?.rootViewController = TabBarViewController()
-          } else {
-              window?.rootViewController = AuthViewController()
-          }
-            window?.makeKeyAndVisible()
-
-            return true
-        }
+        FirebaseApp.configure()
+        window = UIWindow(frame: UIScreen.main.bounds)
+        updateRootViewController()
+        window?.makeKeyAndVisible()
+        return true
+    }
+    func updateRootViewController() {
+           if Auth.auth().currentUser != nil {
+               window?.rootViewController = TabBarViewController()
+           } else {
+               window?.rootViewController = AuthViewController()
+           }
+       }
 
     // MARK: UISceneSession Lifecycle
 

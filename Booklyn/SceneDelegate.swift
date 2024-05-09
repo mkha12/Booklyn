@@ -13,17 +13,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
 
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        
-        guard let windowScene = (scene as? UIWindowScene) else { return }
-        window = UIWindow(windowScene: windowScene)
-        if Auth.auth().currentUser != nil {
-                window?.rootViewController = TabBarViewController()
-            } else {
-                window?.rootViewController = AuthViewController()
-            }
-        window?.makeKeyAndVisible()
-    }
+            guard let windowScene = (scene as? UIWindowScene) else { return }
+            window = UIWindow(windowScene: windowScene)
+            updateRootViewController()
+            window?.makeKeyAndVisible()
+        }
+    
+    func updateRootViewController() {
+          if Auth.auth().currentUser != nil {
+              window?.rootViewController = TabBarViewController()
+          } else {
+              window?.rootViewController = AuthViewController()
+          }
+      }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

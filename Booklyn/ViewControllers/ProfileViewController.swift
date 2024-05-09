@@ -24,19 +24,20 @@ final class ProfileViewController: UIViewController {
     
     func setupUI() {
         
-        profileImage = UIImageView(image: UIImage(systemName: "person.circle"))
+        profileImage = UIImageView()
+        profileImage.image = UIImage(named: "test_photo")
         profileImage.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(profileImage)
         
         profileName = UILabel()
-        profileName.text = ("Name Surename")
+        profileName.text = ("Мария Алексеевна")
         profileName.textColor = .black
         profileName.font = .systemFont(ofSize: 20, weight: .medium)
         profileName.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(profileName)
         
         profileId = UILabel()
-        profileId.text = ("id000000")
+        profileId.text = ("id6457")
         profileId.textColor = .black
         profileId.font = .systemFont(ofSize: 10)
         profileId.translatesAutoresizingMaskIntoConstraints = false
@@ -58,14 +59,13 @@ final class ProfileViewController: UIViewController {
             
             profileName.topAnchor.constraint(equalTo:profileImage.bottomAnchor,constant: 20),
             profileName.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            
             profileId.topAnchor.constraint(equalTo:profileName.bottomAnchor,constant: 10),
             profileId.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             
             collectionView.topAnchor.constraint(equalTo: profileId.bottomAnchor, constant: 20),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 16),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -16),
         ])
     }
     

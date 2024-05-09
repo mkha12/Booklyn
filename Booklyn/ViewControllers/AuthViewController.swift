@@ -276,12 +276,16 @@ final class AuthViewController: UIViewController {
                     if let email = user.profile?.email {
                         let saveSuccessful = KeychainManager.shared.save(email, for: "userEmail")
                     }
-                    let tabBarVC = TabBarViewController()
-                    self?.present(tabBarVC, animated: true, completion: nil)
+                    DispatchQueue.main.async {
+                        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                              let sceneDelegate = windowScene.delegate as? SceneDelegate else { return }
+                        
+                        sceneDelegate.updateRootViewController()
+                    }
                 }
             }
         }
+        
+        
     }
-    
-    
 }

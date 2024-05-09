@@ -24,7 +24,7 @@ final class UsersBookCollectionView: UICollectionView, UICollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("Items count: 20")
+        print("Items count: 21")
         return 20
     }
     
