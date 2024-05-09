@@ -6,7 +6,10 @@
 //
 import UIKit
 
-final class UsersBookCollectionView: UICollectionView, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+final class UsersBookCollectionView: UICollectionView, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
+    
+    var bookData: [[String: String]] = []
+    weak var parentViewController: UIViewController?
     
     init() {
         let layout = UICollectionViewFlowLayout()
@@ -24,15 +27,22 @@ final class UsersBookCollectionView: UICollectionView, UICollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("Items count: 21")
-        return 20
-    }
+           return bookData.count
+       }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BookCell.reuseIdentifier, for: indexPath) as! BookCell
+        let book = bookData[indexPath.item]
         print("Configuring cell for item \(indexPath.item)")
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            let book = bookData[indexPath.item]
+            let detailVC = BookDetailViewController()
+            detailVC.book = book
+            parentViewController?.navigationController?.pushViewController(detailVC, animated: true)
+        }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {

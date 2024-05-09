@@ -11,6 +11,8 @@ final class BookCell: UICollectionViewCell {
     static let reuseIdentifier = "cell"
     
     private var cellImage: UIImageView!
+    private var titleLabel: UILabel!
+    private var authorLabel: UILabel!
     private var readButton: UIButton!
     var cardView: UIView!
     

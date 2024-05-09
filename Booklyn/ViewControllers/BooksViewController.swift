@@ -10,18 +10,21 @@ import Shuffle_iOS
 final class BooksViewController: UIViewController {
     
     private var swipeCardStack: SwipeCardStack!
-    private let bookData = [
+    private var leftArrowImageView: UIImageView!
+    private var rightArrowImageView: UIImageView!
+    let bookData = [
         ["image": "test_book", "author": "Макс Фрай", "title": "Наваждения", "description": "В пятой части популярного фантастического цикла «Лабиринты Ехо» сэр Макс поведает читателю о том, как он и его друзья справлялись с волшебными наваждениями."],
         ["image": "test_book1", "author": "Энн Пэтчет", "title": "Голландский дом", "description": "Описание книги 2."],
         ["image": "test_book2", "author": "Celeste Ng", "title": "Our Missing Hearts", "description": "Описание книги 3."],
         ["image": "test_book3", "author": "Джонатан Франзен", "title": "Перекрестки", "description": "Описание книги 4."],
         ["image": "test_book4", "author": "Стивен Чбоски", "title": "Хорошо быть тихоней", "description": "Описание книги 5."]
     ]
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupSwipeCardStack()
+        setupArrows()
     }
     
     func setupSwipeCardStack() {
@@ -36,6 +39,29 @@ final class BooksViewController: UIViewController {
             swipeCardStack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             swipeCardStack.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             swipeCardStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+    func setupArrows() {
+        leftArrowImageView = UIImageView(image: UIImage(systemName: "arrow.left.circle"))
+        leftArrowImageView.tintColor = .red
+        leftArrowImageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(leftArrowImageView)
+        
+        rightArrowImageView = UIImageView(image: UIImage(systemName: "arrow.right.circle"))
+        rightArrowImageView.tintColor = .green
+        rightArrowImageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(rightArrowImageView)
+        
+        NSLayoutConstraint.activate([
+            leftArrowImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            leftArrowImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            leftArrowImageView.widthAnchor.constraint(equalToConstant: 40),
+            leftArrowImageView.heightAnchor.constraint(equalToConstant: 40),
+            
+            rightArrowImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            rightArrowImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            rightArrowImageView.widthAnchor.constraint(equalToConstant: 40),
+            rightArrowImageView.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
 }
@@ -114,7 +140,6 @@ extension BooksViewController: SwipeCardStackDataSource {
 // MARK: - SwipeCardStackDelegate
 extension BooksViewController: SwipeCardStackDelegate {
     func cardStack(_ cardStack: SwipeCardStack, didSwipeCardAt index: Int, with direction: SwipeDirection) {
-        // Handle swipe directions
         if direction == .right {
             print("Swiped right")
         } else if direction == .left {

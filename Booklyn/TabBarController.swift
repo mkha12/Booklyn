@@ -19,7 +19,7 @@ public final class TabBarViewController: UITabBarController {
         let booksVC = BooksViewController()
         booksVC.tabBarItem = UITabBarItem(title: "Выбрать книгу", image: UIImage(named: "books_icon"), selectedImage: UIImage(named: "books_icon"))
         
-        let profileVC = ProfileViewController()
+        let profileVC = ProfileViewController(bookData: booksVC.bookData)
         profileVC.tabBarItem = UITabBarItem(title: "Мой список", image: UIImage(named: "profile_icon"), selectedImage: UIImage(named: "profile_icon"))
         
         

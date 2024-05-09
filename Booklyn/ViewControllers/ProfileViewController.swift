@@ -14,12 +14,24 @@ final class ProfileViewController: UIViewController {
     private var profileName: UILabel!
     private var profileId: UILabel!
     var collectionView: UsersBookCollectionView!
+    private var bookData: [[String: String]]
+    
+    init(bookData: [[String: String]]) {
+            self.bookData = bookData
+            super.init(nibName: nil, bundle: nil)
+        }
+    
+    required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupUI()
         setupConstraint()
+        collectionView.bookData = bookData
+        collectionView.parentViewController = self
     }
     
     func setupUI() {

@@ -1,0 +1,78 @@
+//
+//  BookDetailViewController.swift
+//  Booklyn
+//
+//  Created by MARIIA on 09.05.24.
+//
+
+import UIKit
+
+final class BookDetailViewController: UIViewController {
+    
+    private var imageView: UIImageView!
+    private var authorLabel: UILabel!
+    private var titleLabel: UILabel!
+    private var descriptionLabel: UILabel!
+    
+    var book: [String: String]?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        setupUI()
+        setupConstraints()
+        configureView()
+    }
+    
+    private func setupUI() {
+        imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(imageView)
+        
+        authorLabel = UILabel()
+        authorLabel.font = .systemFont(ofSize: 20, weight: .medium)
+        authorLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(authorLabel)
+        
+        titleLabel = UILabel()
+        titleLabel.font = .systemFont(ofSize: 25, weight: .bold)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(titleLabel)
+        
+        descriptionLabel = UILabel()
+        descriptionLabel.font = .systemFont(ofSize: 18)
+        descriptionLabel.numberOfLines = 0
+        descriptionLabel.lineBreakMode = .byWordWrapping
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(descriptionLabel)
+    }
+    
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            imageView.widthAnchor.constraint(equalToConstant: 200),
+            imageView.heightAnchor.constraint(equalToConstant: 300),
+            
+            authorLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10),
+            authorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            titleLabel.topAnchor.constraint(equalTo: authorLabel.bottomAnchor, constant: 10),
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+        ])
+    }
+    
+    private func configureView() {
+        guard let book = book else { return }
+        imageView.image = UIImage(named: book["image"]!)
+        authorLabel.text = book["author"]
+        titleLabel.text = book["title"]
+        descriptionLabel.text = book["description"]
+    }
+}
+
