@@ -13,6 +13,7 @@ final class BookDetailViewController: UIViewController {
     private var authorLabel: UILabel!
     private var titleLabel: UILabel!
     private var descriptionLabel: UILabel!
+    private var closeButton: UIButton!
     
     var book: [String: String]?
     
@@ -22,6 +23,7 @@ final class BookDetailViewController: UIViewController {
         setupUI()
         setupConstraints()
         configureView()
+        configureCloseButton()
     }
     
     private func setupUI() {
@@ -46,6 +48,12 @@ final class BookDetailViewController: UIViewController {
         descriptionLabel.lineBreakMode = .byWordWrapping
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(descriptionLabel)
+        
+        closeButton = UIButton(type: .system)
+        closeButton.setTitle("Close", for: .normal)
+        closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(closeButton)
     }
     
     private func setupConstraints() {
@@ -63,7 +71,10 @@ final class BookDetailViewController: UIViewController {
             
             descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
             descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            closeButton.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 20),
+            closeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
@@ -73,6 +84,15 @@ final class BookDetailViewController: UIViewController {
         authorLabel.text = book["author"]
         titleLabel.text = book["title"]
         descriptionLabel.text = book["description"]
+    }
+    
+    private func configureCloseButton() {
+        self.modalPresentationStyle = .pageSheet
+        self.isModalInPresentation = false
+    }
+    
+    @objc private func closeButtonTapped() {
+        dismiss(animated: true, completion: nil)
     }
 }
 

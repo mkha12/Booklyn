@@ -8,18 +8,24 @@
 import UIKit
 
 final class BookCell: UICollectionViewCell {
-    static let reuseIdentifier = "cell"
     
+    static let reuseIdentifier = "cell"
     private var cellImage: UIImageView!
-    private var titleLabel: UILabel!
-    private var authorLabel: UILabel!
     private var readButton: UIButton!
     var cardView: UIView!
     
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        setupUI()
+        setupConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupUI() {
         cellImage = UIImageView()
         cellImage.contentMode = .scaleAspectFill
         cellImage.clipsToBounds = true
@@ -35,7 +41,9 @@ final class BookCell: UICollectionViewCell {
         readButton.setTitleColor(.black, for: .normal)
         readButton.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(readButton)
-        
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             cellImage.topAnchor.constraint(equalTo: contentView.topAnchor),
             cellImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -49,18 +57,6 @@ final class BookCell: UICollectionViewCell {
         ])
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-        }
-        
-        @objc private func didTapReadButton() {
-            if readButton.title(for: .normal) == "+" {
-                    readButton.setTitle("✓", for: .normal)
-                } else {
-                    readButton.setTitle("+", for: .normal)
-                }
-        }
-    
     func showCompletedState() {
         readButton.setTitle("✓", for: .normal)
     }
@@ -68,5 +64,22 @@ final class BookCell: UICollectionViewCell {
     func showNotCompletedState() {
         readButton.setTitle("+", for: .normal)
     }
+    
+    func configure(with imageName: String) {
+           print("Configuring cell with image: \(imageName)")
+           if let image = UIImage(named: imageName) {
+               cellImage.image = image
+           } else {
+               print("Image not found: \(imageName)")  
+           }
+       }
+    
+    @objc private func didTapReadButton() {
+        if readButton.title(for: .normal) == "+" {
+            readButton.setTitle("✓", for: .normal)
+        } else {
+            readButton.setTitle("+", for: .normal)
+        }
     }
+}
 

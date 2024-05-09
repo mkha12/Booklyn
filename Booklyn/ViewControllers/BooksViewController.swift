@@ -7,11 +7,16 @@
 import UIKit
 import Shuffle_iOS
 
+protocol BooksViewControllerDelegate: AnyObject {
+    func didAddBookToFavorites(_ book: [String: String])
+}
+
 final class BooksViewController: UIViewController {
     
     private var swipeCardStack: SwipeCardStack!
     private var leftArrowImageView: UIImageView!
     private var rightArrowImageView: UIImageView!
+    
     let bookData = [
         ["image": "test_book", "author": "Макс Фрай", "title": "Наваждения", "description": "В пятой части популярного фантастического цикла «Лабиринты Ехо» сэр Макс поведает читателю о том, как он и его друзья справлялись с волшебными наваждениями."],
         ["image": "test_book1", "author": "Энн Пэтчет", "title": "Голландский дом", "description": "Описание книги 2."],
@@ -19,6 +24,7 @@ final class BooksViewController: UIViewController {
         ["image": "test_book3", "author": "Джонатан Франзен", "title": "Перекрестки", "description": "Описание книги 4."],
         ["image": "test_book4", "author": "Стивен Чбоски", "title": "Хорошо быть тихоней", "description": "Описание книги 5."]
     ]
+    weak var delegate: BooksViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -141,10 +147,15 @@ extension BooksViewController: SwipeCardStackDataSource {
 extension BooksViewController: SwipeCardStackDelegate {
     func cardStack(_ cardStack: SwipeCardStack, didSwipeCardAt index: Int, with direction: SwipeDirection) {
         if direction == .right {
-            print("Swiped right")
+            let book = bookData[index]
+            print("Attempting to add book to favorites: \(book)")  // Дополнительный отладочный вывод
+            delegate?.didAddBookToFavorites(book)
+            print("Swiped right: \(book["title"] ?? "")")
         } else if direction == .left {
-            print("Swiped left")
+            print("Swiped left: \(bookData[index]["title"] ?? "")")
         }
     }
 }
+
+
 

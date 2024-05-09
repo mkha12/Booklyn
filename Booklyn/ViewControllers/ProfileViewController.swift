@@ -8,16 +8,15 @@
 import UIKit
 
 
-final class ProfileViewController: UIViewController {
-    
+final class ProfileViewController: UIViewController, BooksViewControllerDelegate {
+   
     private var profileImage: UIImageView!
     private var profileName: UILabel!
     private var profileId: UILabel!
+    private var favoriteBooks: [[String: String]] = []
     var collectionView: UsersBookCollectionView!
-    private var bookData: [[String: String]]
     
     init(bookData: [[String: String]]) {
-            self.bookData = bookData
             super.init(nibName: nil, bundle: nil)
         }
     
@@ -30,8 +29,9 @@ final class ProfileViewController: UIViewController {
         view.backgroundColor = .white
         setupUI()
         setupConstraint()
-        collectionView.bookData = bookData
+        collectionView.bookData = favoriteBooks
         collectionView.parentViewController = self
+        print("ProfileViewController loaded")
     }
     
     func setupUI() {
@@ -81,5 +81,41 @@ final class ProfileViewController: UIViewController {
         ])
     }
     
+    func didAddBookToFavorites(_ book: [String : String]) {
+        favoriteBooks.append(book)
+        collectionView.bookData = favoriteBooks
+        collectionView.reloadData()
+    }
+    
 }
+
+//extension ProfileViewController: UICollectionViewDelegate {
+//    func collectionView(_ collectionView: UICollectionView,
+//                        contextMenuConfigurationForItemAt indexPath: IndexPath,
+//                        point: CGPoint) -> UIContextMenuConfiguration? {
+//        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
+//            let removeAction = UIAction(title: "Remove",
+//                                        image: nil,
+//                                        identifier: nil,
+//                                        discoverabilityTitle: nil,
+//                                        attributes: .destructive,
+//                                        handler: { [weak self] _ in
+//                guard let self = self else { return }
+//                self.deleteFromFavorites(indexPath: indexPath)
+//            })
+//
+//            return UIMenu(title: "Edit",
+//                          image: nil,
+//                          options: [],
+//                          children: [removeAction])
+//        }
+//    }
+//
+//
+//    private func deleteFromFavorites(indexPath: IndexPath) {
+//        favoriteBooks.remove(at: indexPath.item)
+//        collectionView.bookData = favoriteBooks
+//        collectionView.deleteItems(at: [indexPath])
+//    }
+//}
 

@@ -27,23 +27,26 @@ final class UsersBookCollectionView: UICollectionView, UICollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-           return bookData.count
-       }
+        return bookData.count
+    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BookCell.reuseIdentifier, for: indexPath) as! BookCell
         let book = bookData[indexPath.item]
-        print("Configuring cell for item \(indexPath.item)")
+        if let imageName = book["image"] {
+            cell.configure(with: imageName)
+        }
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            let book = bookData[indexPath.item]
-            let detailVC = BookDetailViewController()
-            detailVC.book = book
-            parentViewController?.navigationController?.pushViewController(detailVC, animated: true)
-        }
-
+        let book = bookData[indexPath.item]
+        let detailVC = BookDetailViewController()
+        detailVC.book = book
+        detailVC.modalPresentationStyle = .fullScreen
+        parentViewController?.present(detailVC, animated: true, completion: nil)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CategoryHeader.reuseIdentifier, for: indexPath) as? CategoryHeader else {
@@ -56,7 +59,7 @@ final class UsersBookCollectionView: UICollectionView, UICollectionViewDataSourc
             return UICollectionReusableView()
         }
     }
-
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 8
@@ -66,6 +69,32 @@ final class UsersBookCollectionView: UICollectionView, UICollectionViewDataSourc
         return 0
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 100, height: 150)
+        let width = (collectionView.bounds.width - 32) / 2
+        let height = width * 1.5
+        return CGSize(width: width, height: height)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+            return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
+                let removeAction = UIAction(title: "Remove",
+                                            image: nil,
+                                            identifier: nil,
+                                            discoverabilityTitle: nil,
+                                            attributes: .destructive,
+                                            handler: { [weak self] _ in
+                    guard let self = self else { return }
+                    self.deleteFromFavorites(indexPath: indexPath)
+                })
+                return UIMenu(title: "Edit",
+                              image: nil,
+                              options: [],
+                              children: [removeAction])
+            }
+        }
+
+        private func deleteFromFavorites(indexPath: IndexPath) {
+            bookData.remove(at: indexPath.item)
+            self.deleteItems(at: [indexPath])
+            print("Book removed from favorites at index \(indexPath.item)")
+        }
 }
