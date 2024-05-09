@@ -24,5 +24,10 @@ public final class TabBarViewController: UITabBarController {
         
         
         viewControllers = [booksVC, profileVC ]
+        
+        tabBar.tintColor = UIColor.black
+        tabBar.unselectedItemTintColor = UIColor.gray
+        
+        tabBar.barTintColor = UIColor.white
     }
 }

@@ -92,13 +92,6 @@ final class UsersBookCollectionView: UICollectionView, UICollectionViewDataSourc
             }
         }
 
-//        private func deleteFromFavorites(indexPath: IndexPath) {
-//            bookData.remove(at: indexPath.item)
-//            (parentViewController as? ProfileViewController)?.saveFavorites()
-//            self.deleteItems(at: [indexPath])
-//            print("Book removed from favorites at index \(indexPath.item)")
-//        }
-    
     private func deleteFromFavorites(indexPath: IndexPath) {
             bookData.remove(at: indexPath.item)
             self.deleteItems(at: [indexPath])
