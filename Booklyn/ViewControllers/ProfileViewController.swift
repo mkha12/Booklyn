@@ -13,7 +13,7 @@ final class ProfileViewController: UIViewController, BooksViewControllerDelegate
     private var profileImage: UIImageView!
     private var profileName: UILabel!
     private var profileId: UILabel!
-    private var favoriteBooks: [[String: String]] = []
+    var favoriteBooks: [[String: String]] = []
     var collectionView: UsersBookCollectionView!
     
     init(bookData: [[String: String]]) {
@@ -31,6 +31,7 @@ final class ProfileViewController: UIViewController, BooksViewControllerDelegate
         setupConstraint()
         collectionView.bookData = favoriteBooks
         collectionView.parentViewController = self
+        loadFavorites()
         print("ProfileViewController loaded")
     }
     
@@ -56,6 +57,7 @@ final class ProfileViewController: UIViewController, BooksViewControllerDelegate
         view.addSubview(profileId)
         
         collectionView = UsersBookCollectionView()
+        collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
         
@@ -81,41 +83,36 @@ final class ProfileViewController: UIViewController, BooksViewControllerDelegate
         ])
     }
     
-    func didAddBookToFavorites(_ book: [String : String]) {
-        favoriteBooks.append(book)
-        collectionView.bookData = favoriteBooks
-        collectionView.reloadData()
+    func didAddBookToFavorites(_ book: [String: String]) {
+        print("Attempting to add book to favorites: \(book["title"] ?? "")")
+        
+        if favoriteBooks.contains(where: { $0["title"] == book["title"] }) {
+            print("Book already in favorites: \(book["title"] ?? "")")
+        } else {
+            favoriteBooks.append(book)
+            collectionView.bookData = favoriteBooks
+            collectionView.reloadData()
+            saveFavorites()
+            print("Book added to favorites: \(book["title"] ?? "")")
+            print("Current favorites: \(favoriteBooks.map { $0["title"] ?? "" })")
+        }
     }
     
-}
+    func saveFavorites() {
+        UserDefaults.standard.set(favoriteBooks, forKey: "favoriteBooks")
+        print("Favorites saved to UserDefaults.")
+    }
 
-//extension ProfileViewController: UICollectionViewDelegate {
-//    func collectionView(_ collectionView: UICollectionView,
-//                        contextMenuConfigurationForItemAt indexPath: IndexPath,
-//                        point: CGPoint) -> UIContextMenuConfiguration? {
-//        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { suggestedActions in
-//            let removeAction = UIAction(title: "Remove",
-//                                        image: nil,
-//                                        identifier: nil,
-//                                        discoverabilityTitle: nil,
-//                                        attributes: .destructive,
-//                                        handler: { [weak self] _ in
-//                guard let self = self else { return }
-//                self.deleteFromFavorites(indexPath: indexPath)
-//            })
-//
-//            return UIMenu(title: "Edit",
-//                          image: nil,
-//                          options: [],
-//                          children: [removeAction])
-//        }
-//    }
-//
-//
-//    private func deleteFromFavorites(indexPath: IndexPath) {
-//        favoriteBooks.remove(at: indexPath.item)
-//        collectionView.bookData = favoriteBooks
-//        collectionView.deleteItems(at: [indexPath])
-//    }
-//}
+    func loadFavorites() {
+        if let savedBooks = UserDefaults.standard.array(forKey: "favoriteBooks") as? [[String: String]] {
+            favoriteBooks = savedBooks
+            collectionView.bookData = favoriteBooks
+            collectionView.reloadData()
+            print("Favorites loaded from UserDefaults.")
+        }
+    }
+
+
+    
+}
 

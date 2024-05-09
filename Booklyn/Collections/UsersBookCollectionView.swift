@@ -85,16 +85,27 @@ final class UsersBookCollectionView: UICollectionView, UICollectionViewDataSourc
                     guard let self = self else { return }
                     self.deleteFromFavorites(indexPath: indexPath)
                 })
-                return UIMenu(title: "Edit",
+                return UIMenu(title: "",
                               image: nil,
                               options: [],
                               children: [removeAction])
             }
         }
 
-        private func deleteFromFavorites(indexPath: IndexPath) {
+//        private func deleteFromFavorites(indexPath: IndexPath) {
+//            bookData.remove(at: indexPath.item)
+//            (parentViewController as? ProfileViewController)?.saveFavorites()
+//            self.deleteItems(at: [indexPath])
+//            print("Book removed from favorites at index \(indexPath.item)")
+//        }
+    
+    private func deleteFromFavorites(indexPath: IndexPath) {
             bookData.remove(at: indexPath.item)
             self.deleteItems(at: [indexPath])
+            if let parentVC = parentViewController as? ProfileViewController {
+                parentVC.favoriteBooks = bookData
+                parentVC.saveFavorites()
+            }
             print("Book removed from favorites at index \(indexPath.item)")
         }
 }
