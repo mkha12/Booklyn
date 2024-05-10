@@ -14,9 +14,7 @@ protocol BooksViewControllerDelegate: AnyObject {
 final class BooksViewController: UIViewController {
     
     private var swipeCardStack: SwipeCardStack!
-    private var leftArrowImageView: UIImageView!
-    private var rightArrowImageView: UIImageView!
-    
+  
     let bookData = [
         ["image": "test_book", "author": "Макс Фрай", "title": "Наваждения", "description": "В пятой части популярного фантастического цикла «Лабиринты Ехо» сэр Макс поведает читателю о том, как он и его друзья справлялись с волшебными наваждениями."],
         ["image": "test_book1", "author": "Энн Пэтчет", "title": "Голландский дом", "description": "Эта книга рассказывает о доме, который становится центром вселенной для своих обитателей, и о семье, чья жизнь оказывается неразрывно связана с этим местом."],
@@ -29,14 +27,28 @@ final class BooksViewController: UIViewController {
         ["image": "test_book8", "author": "Франческа Рис", "title": "Наблюдатель", "description": "«Писатель ищет помощника» — такое объявление видит в газете Лия, молодая англичанка, сбежавшая в Париж от серых лондонских будней."],
         ["image": "test_book9", "author": "Алексей Иванов", "title": "Пищеблок", "description": "Мистический триллер о загадочных событиях, происходящих в пионерлагере на фоне перестройки в СССР."]
     ]
-
+    
+    private var declinedBooks: [[String: String]] = []
+    private var currentIndex = 0
+    
+    var availableBooks: [[String: String]] {
+           let favorites = UserDefaults.standard.array(forKey: "favoriteBooks") as? [[String: String]] ?? []
+           let notFavoriteBooks = bookData.filter { book in
+               !favorites.contains { $0["title"] == book["title"] }
+           }
+           let currentBooks = notFavoriteBooks.filter { book in
+               !declinedBooks.contains { $0["title"] == book["title"] }
+           }
+           return currentBooks.isEmpty ? declinedBooks : currentBooks
+       }
+    
     weak var delegate: BooksViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupSwipeCardStack()
-        setupArrows()
+
     }
     
     func setupSwipeCardStack() {
@@ -53,41 +65,23 @@ final class BooksViewController: UIViewController {
             swipeCardStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-    func setupArrows() {
-        leftArrowImageView = UIImageView(image: UIImage(systemName: "arrow.left.circle"))
-        leftArrowImageView.tintColor = .red
-        leftArrowImageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(leftArrowImageView)
-        
-        rightArrowImageView = UIImageView(image: UIImage(systemName: "arrow.right.circle"))
-        rightArrowImageView.tintColor = .green
-        rightArrowImageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(rightArrowImageView)
-        
-        NSLayoutConstraint.activate([
-            leftArrowImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            leftArrowImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            leftArrowImageView.widthAnchor.constraint(equalToConstant: 40),
-            leftArrowImageView.heightAnchor.constraint(equalToConstant: 40),
-            
-            rightArrowImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            rightArrowImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            rightArrowImageView.widthAnchor.constraint(equalToConstant: 40),
-            rightArrowImageView.heightAnchor.constraint(equalToConstant: 40)
-        ])
-    }
+    
+    func refreshData() {
+          swipeCardStack.reloadData()
+      }
 }
 
 // MARK: - SwipeCardStackDataSource
 extension BooksViewController: SwipeCardStackDataSource {
+    
     func numberOfCards(in cardStack: SwipeCardStack) -> Int {
-        return bookData.count
+        return availableBooks.count
     }
 
     func cardStack(_ cardStack: SwipeCardStack, cardForIndexAt index: Int) -> SwipeCard {
         let card = SwipeCard()
         card.backgroundColor = .white
-        let book = bookData[index]
+        let book = availableBooks[index]
     
         let imageView = UIImageView(image: UIImage(named: book["image"]!))
         imageView.contentMode = .scaleAspectFit
@@ -149,19 +143,21 @@ extension BooksViewController: SwipeCardStackDataSource {
     }
 }
 
-// MARK: - SwipeCardStackDelegate
 extension BooksViewController: SwipeCardStackDelegate {
     func cardStack(_ cardStack: SwipeCardStack, didSwipeCardAt index: Int, with direction: SwipeDirection) {
+        let book = availableBooks[index]
         if direction == .right {
-            let book = bookData[index]
-            print("Attempting to add book to favorites: \(book)")  // Дополнительный отладочный вывод
             delegate?.didAddBookToFavorites(book)
-            print("Swiped right: \(book["title"] ?? "")")
         } else if direction == .left {
-            print("Swiped left: \(bookData[index]["title"] ?? "")")
+            declinedBooks.append(book)
         }
+        refreshData()
+    }
+    
+    func cardStackDidFinishSwipingCards(_ cardStack: SwipeCardStack) {
+        declinedBooks.removeAll()
+        refreshData()
     }
 }
-
 
 

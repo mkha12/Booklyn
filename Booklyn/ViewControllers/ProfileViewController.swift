@@ -15,6 +15,7 @@ final class ProfileViewController: UIViewController, BooksViewControllerDelegate
     private var profileId: UILabel!
     var favoriteBooks: [[String: String]] = []
     var collectionView: UsersBookCollectionView!
+    var booksViewController: BooksViewController?
     
     init(bookData: [[String: String]]) {
             super.init(nibName: nil, bundle: nil)

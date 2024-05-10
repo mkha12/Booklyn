@@ -6,7 +6,7 @@
 //
 import UIKit
 
-final class UsersBookCollectionView: UICollectionView, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
+final class UsersBookCollectionView: UICollectionView, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate{
     
     var bookData: [[String: String]] = []
     weak var parentViewController: UIViewController?
