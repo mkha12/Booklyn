@@ -86,7 +86,12 @@ final class ProfileViewController: UIViewController, BooksViewControllerDelegate
     
     func didAddBookToFavorites(_ book: [String: String]) {
         print("Attempting to add book to favorites: \(book["title"] ?? "")")
-        
+
+        if favoriteBooks == nil {
+            print("favoriteBooks is nil, initializing it.")
+            favoriteBooks = []
+        }
+
         if favoriteBooks.contains(where: { $0["title"] == book["title"] }) {
             print("Book already in favorites: \(book["title"] ?? "")")
         } else {
@@ -98,6 +103,7 @@ final class ProfileViewController: UIViewController, BooksViewControllerDelegate
             print("Current favorites: \(favoriteBooks.map { $0["title"] ?? "" })")
         }
     }
+
     
     func saveFavorites() {
         UserDefaults.standard.set(favoriteBooks, forKey: "favoriteBooks")
@@ -107,13 +113,14 @@ final class ProfileViewController: UIViewController, BooksViewControllerDelegate
     func loadFavorites() {
         if let savedBooks = UserDefaults.standard.array(forKey: "favoriteBooks") as? [[String: String]] {
             favoriteBooks = savedBooks
-            collectionView.bookData = favoriteBooks
-            collectionView.reloadData()
             print("Favorites loaded from UserDefaults.")
+        } else {
+            favoriteBooks = []
+            print("No favorites found in UserDefaults, initializing empty array.")
         }
+        collectionView.bookData = favoriteBooks
+        collectionView.reloadData()
     }
 
-
-    
 }
 

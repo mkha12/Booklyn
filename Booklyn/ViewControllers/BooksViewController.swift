@@ -31,26 +31,66 @@ final class BooksViewController: UIViewController {
     private var declinedBooks: [[String: String]] = []
     private var currentIndex = 0
     
-    var availableBooks: [[String: String]] {
-           let favorites = UserDefaults.standard.array(forKey: "favoriteBooks") as? [[String: String]] ?? []
-           let notFavoriteBooks = bookData.filter { book in
-               !favorites.contains { $0["title"] == book["title"] }
-           }
-           let currentBooks = notFavoriteBooks.filter { book in
-               !declinedBooks.contains { $0["title"] == book["title"] }
-           }
-           return currentBooks.isEmpty ? declinedBooks : currentBooks
-       }
-    
+    var favoriteBooks: [[String: String]] = []
+    var rejectedBooks: [[String: String]] = []
+    var unviewedBooks: [[String: String]] = []
+
+
     weak var delegate: BooksViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadData()
         view.backgroundColor = .white
         setupSwipeCardStack()
 
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if isFirstTimeUser() {
+            showInstructions()
+        }
+    }
+    func showInstructions() {
+        let alert1 = UIAlertController(title: "Инструкция 1", message: "Свайпните влево, если книга не заинтересовала.", preferredStyle: .alert)
+        alert1.addAction(UIAlertAction(title: "Далее", style: .default, handler: { _ in
+            self.showSecondInstruction()
+        }))
+        present(alert1, animated: true, completion: nil)
+    }
+
+    func showSecondInstruction() {
+        let alert2 = UIAlertController(title: "Инструкция 2", message: "Свайпните вправо, чтобы добавить книгу в избранное.", preferredStyle: .alert)
+        alert2.addAction(UIAlertAction(title: "Готово", style: .default, handler: { _ in
+            // Сохраняем, что пользователь видел инструкции
+            UserDefaults.standard.set(true, forKey: "hasSeenInstructions")
+        }))
+        present(alert2, animated: true, completion: nil)
+    }
+
+
+    func loadData() {
+        if let savedFavorites = UserDefaults.standard.array(forKey: "favoriteBooks") as? [[String: String]] {
+            favoriteBooks = savedFavorites
+        }
+
+        if let savedRejected = UserDefaults.standard.array(forKey: "rejectedBooks") as? [[String: String]] {
+            rejectedBooks = savedRejected
+        }
+
+        unviewedBooks = bookData.filter { book in
+            !favoriteBooks.contains(where: { $0["title"] == book["title"] }) &&
+            !rejectedBooks.contains(where: { $0["title"] == book["title"] })
+        }
+    }
+    
+    func isFirstTimeUser() -> Bool {
+        let hasSeenInstructions = UserDefaults.standard.bool(forKey: "hasSeenInstructions")
+        return !hasSeenInstructions
+    }
+
     func setupSwipeCardStack() {
         swipeCardStack = SwipeCardStack()
         swipeCardStack.delegate = self
@@ -67,21 +107,54 @@ final class BooksViewController: UIViewController {
     }
     
     func refreshData() {
-          swipeCardStack.reloadData()
-      }
+        DispatchQueue.main.async {
+            self.swipeCardStack.reloadData()
+        }
+    }
+
+    
+    func saveFavorites() {
+        UserDefaults.standard.set(favoriteBooks, forKey: "favoriteBooks")
+    }
+
+    func saveRejectedBooks() {
+        UserDefaults.standard.set(rejectedBooks, forKey: "rejectedBooks")
+    }
+    
+    func showReviewRejectedBooksAlert() {
+        let alert = UIAlertController(title: "Упс, вы посмотрели все книги", message: "Хотите посмотреть те, что вы отклонили?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Да", style: .default, handler: { _ in
+            self.unviewedBooks = self.rejectedBooks
+            self.rejectedBooks.removeAll()
+            self.saveRejectedBooks()
+            self.refreshData()
+        }))
+        alert.addAction(UIAlertAction(title: "Нет", style: .cancel, handler: { _ in
+            self.showNoMoreBooksAlert()
+        }))
+        present(alert, animated: true, completion: nil)
+    }
+
+
+    func showNoMoreBooksAlert() {
+        let alert = UIAlertController(title: "Нет доступных книг", message: "Вы просмотрели все книги.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+
 }
 
 // MARK: - SwipeCardStackDataSource
 extension BooksViewController: SwipeCardStackDataSource {
     
     func numberOfCards(in cardStack: SwipeCardStack) -> Int {
-        return availableBooks.count
+        return unviewedBooks.count
     }
 
     func cardStack(_ cardStack: SwipeCardStack, cardForIndexAt index: Int) -> SwipeCard {
         let card = SwipeCard()
         card.backgroundColor = .white
-        let book = availableBooks[index]
+        let book = unviewedBooks[index]
     
         let imageView = UIImageView(image: UIImage(named: book["image"]!))
         imageView.contentMode = .scaleAspectFit
@@ -144,20 +217,29 @@ extension BooksViewController: SwipeCardStackDataSource {
 }
 
 extension BooksViewController: SwipeCardStackDelegate {
+    
     func cardStack(_ cardStack: SwipeCardStack, didSwipeCardAt index: Int, with direction: SwipeDirection) {
-        let book = availableBooks[index]
+        let book = unviewedBooks[index]
+        
         if direction == .right {
+            favoriteBooks.append(book)
+            saveFavorites()
             delegate?.didAddBookToFavorites(book)
         } else if direction == .left {
-            declinedBooks.append(book)
+            rejectedBooks.append(book)
+            saveRejectedBooks()
         }
-        refreshData()
+        
+        unviewedBooks.remove(at: index)
+        if unviewedBooks.isEmpty {
+            if !rejectedBooks.isEmpty {
+                showReviewRejectedBooksAlert()
+            } else {
+                showNoMoreBooksAlert()
+            }
+        } else {
+            refreshData()
+        }
     }
-    
-    func cardStackDidFinishSwipingCards(_ cardStack: SwipeCardStack) {
-        declinedBooks.removeAll()
-        refreshData()
-    }
+
 }
-
-

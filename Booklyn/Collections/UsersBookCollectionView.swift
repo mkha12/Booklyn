@@ -93,12 +93,20 @@ final class UsersBookCollectionView: UICollectionView, UICollectionViewDataSourc
         }
 
     private func deleteFromFavorites(indexPath: IndexPath) {
-            bookData.remove(at: indexPath.item)
-            self.deleteItems(at: [indexPath])
-            if let parentVC = parentViewController as? ProfileViewController {
-                parentVC.favoriteBooks = bookData
-                parentVC.saveFavorites()
-            }
-            print("Book removed from favorites at index \(indexPath.item)")
+        let removedBook = bookData.remove(at: indexPath.item)
+        self.deleteItems(at: [indexPath])
+        if let parentVC = parentViewController as? ProfileViewController {
+            parentVC.favoriteBooks = bookData
+            parentVC.saveFavorites()
         }
+        if let booksVC = parentViewController?.tabBarController?.viewControllers?.compactMap({ $0 as? BooksViewController }).first {
+            booksVC.unviewedBooks.append(removedBook)
+            booksVC.refreshData()
+            print("Book added back to unviewedBooks in BooksViewController")
+        } else {
+            print("Unable to find BooksViewController to add the book back")
+        }
+        
+        print("Book removed from favorites at index \(indexPath.item)")
+    }
 }

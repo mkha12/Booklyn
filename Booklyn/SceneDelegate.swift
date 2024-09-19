@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseAuth
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+class SceneDelegate: UIResponder, UIWindowSceneDelegate, UIPageViewControllerDelegate, OnboardingViewControllerDelegate {
 
     var window: UIWindow?
 
@@ -21,13 +21,46 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window?.makeKeyAndVisible()
         }
     
+    func isFirstLaunch() -> Bool {
+        let key = "wasLaunchedBefore"
+        if UserDefaults.standard.bool(forKey: key) {
+            return false
+        }
+        UserDefaults.standard.set(true, forKey: key)
+        return true
+    }
+    
+    func onboardingDidFinish() {
+            updateRootViewController()
+        }
+
     func updateRootViewController() {
-          if Auth.auth().currentUser != nil {
-              window?.rootViewController = TabBarViewController()
-          } else {
-              window?.rootViewController = AuthViewController()
+        if isFirstLaunch() {
+            let onboardingViewController = OnboardingViewController()
+            onboardingViewController.onboardingDelegate = self // Устанавливаем делегата
+            window?.rootViewController = onboardingViewController
+        } else {
+            if Auth.auth().currentUser != nil {
+                window?.rootViewController = TabBarViewController()
+            } else {
+                window?.rootViewController = AuthViewController()
+            }
+        }
+    }
+
+    
+    func setRootViewController(_ vc: UIViewController) {
+          guard let window = self.window else {
+              return
           }
+          window.rootViewController = vc
+          UIView.transition(with: window,
+                            duration: 0.5,
+                            options: [.transitionFlipFromRight],
+                            animations: nil,
+                            completion: nil)
       }
+  }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
@@ -58,5 +91,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
 
-}
 
